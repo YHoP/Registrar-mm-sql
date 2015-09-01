@@ -1,41 +1,35 @@
-<h3>$task.getDescription()</h3>
-<table style="width:40%">
-<form action='/update_tasks/$task.getId()' method='post'>
-  <label for='description'>Edit task description : </label>
-  <input id='description' name='description' type='text'>
-  <button type='submit'> Edit</button>
+<h3>$student.getName()'s page</h3>
+<form action='/update_student' method='post'>
+  <input id='student_id' name='student_id' type='hidden' value='$student.getId()'>
+  <label for='name'>Name : </label>
+  <input id='name' name='name' type='text' value='$student.getName()'>
+  <label for='date'>Enrollment Date : </label>
+  <input id='date' name='date' type='date' value='$student.getDate()'>
+  <button type='submit'>Edit</button>
 </form>
 <br>
-#if($task.getDueDate())
-<h4><span class='glyphicon glyphicon-calendar'></span>  Due date:  $task.getDueDate()</h4>
-#else
-#end
-<br>
-<form action='/dueDate_tasks/$task.getId()' method='post'>
-    <input type='date' name='dueDate'/>
-    <button type='submit'> Set due date</button>
+<form action='/add_courses' method='post'>
+    <input id='student_id' name='student_id' type='hidden' value='$student.getId()'>
+    <label for='course_id'>Add a course : </label>
+    <select id='course_id' name='course_id' type='text'>
+      #foreach($course in $courses)
+        <option value='$course.getId()'> $course.getName() </option>
+      #end
+    </select>
+    <button type='submit'>Add</button>
 </form>
-</table>
 <br>
-<h4>Here are the categories for this task:</h4>
-<table style="width:40%">
-<tr>
-  <td><form action='/add_categories' method='post'>
-      <input id='task_id' name='task_id' type='hidden' value='$task.getId()'>
-      <label for='category_id'>Add a category</label>
-      <select id='category_id' name='category_id' type='text'>
-        #foreach($category in $allCategories)
-          <option value='$category.getId()'> $category.getName() </option>
-        #end
-      </select>
-      <button type='submit'>Add</button>
-  </form></td>
-</tr>
-#if($task.getCategories())
-  #foreach($category in $task.getCategories())
+#if($myCourses)
+  <table>
+    <tr>
+      <td>Course Name</td>
+      <td>Course Number</td>
+    </tr>
+  #foreach($course in $myCourses)
   <tr>
-    <td>$category.getName()</td>
-</tr>
+      <td>$course.getName()</td>
+      <td>$course.getNumber()</td>
+  </tr>
   #end
+  </table>
 #end
-</table>

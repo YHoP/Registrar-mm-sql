@@ -1,6 +1,6 @@
 import java.util.HashMap;
 import java.util.List;
-
+import java.util.ArrayList;
 import spark.ModelAndView;
 import spark.template.velocity.VelocityTemplateEngine;
 import static spark.Spark.*;
@@ -15,6 +15,7 @@ public class App {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("template", "templates/index.vtl");
       model.put("students", Student.all());
+      model.put("courses", Course.all());
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
@@ -28,20 +29,86 @@ public class App {
       return null;
     });
 
+    post("/add_course", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      String name = request.queryParams("name");
+      String number = request.queryParams("number");
+      Course newCourse = new Course(name, number);
+      newCourse.save();
+      response.redirect("/");
+      return null;
+    });
+
+    get("/course/:id", (request,response) ->{
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      int course_id = Integer.parseInt(request.params("id"));
+      Course course = Course.find(course_id);
+      ArrayList<Student> students = course.getStudents();
+      model.put("students", students);
+      model.put("all_students", Student.all());
+      model.put("course", course);
+      model.put("template", "templates/course.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
 
 
-    // get("/courses/:id", (request,response) ->{
-    //   HashMap<String, Object> model = new HashMap<String, Object>();
-    //   int id = Integer.parseInt(request.params("id"));
-    //   Course course = Course.find(id);
-    //   model.put("course", course);
-    //   model.put("allStudents", Student.all());
-    //   model.put("completedCourseStudents", course.completedCourseStudents());
-    //   model.put("incompletedCourseStudents", course.incompletedCourseStudents());
-    //   model.put("template", "templates/course.vtl");
-    //   return new ModelAndView(model, layout);
-    // }, new VelocityTemplateEngine());
-    //
+    post("/update_course", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      int course_id = Integer.parseInt(request.queryParams("course_id"));
+      Course myCourse = Course.find(course_id);
+      String name = request.queryParams("name");
+      String number = request.queryParams("number");
+      myCourse.update(name, number);
+      response.redirect("/courses/" + course_id);
+      return null;
+    });
+
+    post("/add_students", (request, response) -> {
+      int courseId = Integer.parseInt(request.queryParams("course_id"));
+      Course course = Course.find(courseId);
+      int studentId = Integer.parseInt(request.queryParams("student_id"));
+      Student student = Student.find(studentId);
+      course.addStudent(student);
+      response.redirect("/courses/" + courseId);
+      return null;
+    });
+
+    get("/student/:id", (request,response) ->{
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      int student_id = Integer.parseInt(request.params("id"));
+      Student myStudent = Student.find(student_id);
+      ArrayList<Course> myCourses = myStudent.getCourses();
+      model.put("student", myStudent);
+      model.put("myCourses", myCourses);
+      model.put("courses", Course.all());
+      model.put("template", "templates/student.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+
+    post("/update_student", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      int student_id = Integer.parseInt(request.queryParams("student_id"));
+      Student myStudent = Student.find(student_id);
+      String name = request.queryParams("name");
+      String date = request.queryParams("date");
+      myStudent.update(name, date);
+      response.redirect("/student/" + student_id);
+      return null;
+    });
+
+    post("/add_courses", (request, response) -> {
+      int student_id = Integer.parseInt(request.queryParams("student_id"));
+      Student myStudent = Student.find(student_id);
+      int course_id = Integer.parseInt(request.queryParams("course_id"));
+      Course course = Course.find(course_id);
+      myStudent.addCourse(course);
+      response.redirect("/student/" + student_id);
+      return null;
+    });
+
+
+
     // get("/delete_courses/:course_id", (request, response) -> {
     //   int course_id = Integer.parseInt(request.params("course_id"));
     //   Course myCourse = Course.find(course_id);
@@ -51,26 +118,7 @@ public class App {
     // });
     //
 
-    //
-    // post("/update_course/:id", (request, response) -> {
-    //   HashMap<String, Object> model = new HashMap<String, Object>();
-    //   int course_id = Integer.parseInt(request.params("id")); ///?course_id
-    //   Course myCourse = Course.find(course_id);
-    //   String name = request.queryParams("name");
-    //   myCourse.update(name);
-    //   response.redirect("/courses/" + course_id);
-    //   return null;
-    // });
-    //
-    // post("/add_students", (request, response) -> {
-    //   int studentId = Integer.parseInt(request.queryParams("student_id"));
-    //   int courseId = Integer.parseInt(request.queryParams("course_id"));
-    //   Course course = Course.find(courseId);
-    //   Student student = Student.find(studentId);
-    //   course.addStudent(student);
-    //   response.redirect("/courses/" + courseId);
-    //   return null;
-    // });
+
     //
     // get("/:course_id/isCompleted_students/:student_id", (request, response) -> {
     //   HashMap<String, Object> model = new HashMap<String, Object>();

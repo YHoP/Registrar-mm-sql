@@ -1,14 +1,52 @@
-<h3>Input stuednt info</h3>
 
+<div id="well">
+<h3>Input stuednt info</h3>
 <form action='/add_student' method='post'>
   <label for='name'>Student Name</label>
   <input id='name' name='name' type='text'>
   <label for='date'>Enrollment Date</label>
-  <input type='date' name='date'/>
+  <input id='date' type='date' name='date'/>
   <button type='submit'> Add </button>
 </form>
-
-
-#foreach($student in $students)
-  Student Name: $student.getName()   Enrollment Date: $student.getDate() <br>
+<br>
+#if($students)
+  <table>
+  <tr>
+    <td>Student Name</td>
+    <td>Enrollment Date</td>
+  </tr>
+  #foreach($student in $students)
+  <tr>
+      <td><a href="/student/$student.getId()">$student.getName()</a></td>
+      <td>$student.getDate()</td>
+  </tr>
+  #end
+  </table>
 #end
+</div>
+<br>
+<div id="well">
+<h3>Input course info</h3>
+<form action='/add_course' method='post'>
+  <label for='name'>Course Name</label>
+  <input id='name' name='name' type='text'>
+  <label for='number'>Course Number</label>
+  <input id='number' type='text' name='number'/>
+  <button type='submit'> Add </button>
+</form>
+<br>
+#if($courses)
+  <table>
+  <tr>
+    <td>Course Name</td>
+    <td>Course Number</td>
+  </tr>
+  #foreach($course in $courses)
+  <tr>
+      <td><a href="/course/$course.getId()">$course.getName()</a></td>
+      <td>$course.getNumber()</td>
+  </tr>
+  #end
+  </table>
+#end
+</div>
