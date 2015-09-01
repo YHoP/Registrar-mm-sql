@@ -1,40 +1,29 @@
-<h3>Task list</h3>
-<form action='/tasks' method='post'>
-  <label for='description'>Add Task : </label>
-  <input id='description' name='description' type='text'>
-  <button type='submit'>Add task</button>
-</form>
-<br>
-<h4>List of tasks: </h4>
-<table style='width:50%'>
-#foreach($task in $incompletedTasks)
-<tr>
-  <td><a href='/isCompleted_tasks/$task.getId()'><span class='glyphicon glyphicon-unchecked'></span></a></td>
-  <td><a href='/tasks/$task.getId()'><span class='glyphicon glyphicon-pencil'></span></a></td>
-  <td><a href='/tasks/$task.getId()'>$task.getDescription()</a></td>
-  <td>#if($task.getDueDate())
-        <span class='glyphicon glyphicon-calendar'></span>  $task.getDueDate()
-      #else
-      #end
-    </td>
-  <td><a href='/delete_tasks/$task.getId()'><span class='glyphicon glyphicon-remove'></span></a></td>
-</tr>
-#end
+<h3>Student List</h3>
+
+#foreach($major in $all_majors)
+<table class="table table-condensed">
+
+  #if($major.getMajor() == "art")
+    <tr class = "active">
+  #elseif($major.getMajor() == "history")
+    <tr class = "warning">
+  #elseif($major.getMajor() == "biology")
+    <tr class = "danger">
+  #elseif($major.getMajor() == "computer science")
+    <tr class = "info">
+  #else
+  <tr class = "success">
+  #end
+
+  <td>
+    <h3>$major.getMajor()</h3>
+    <ul>
+    #foreach($student in $major.getStudents())
+      <li>$student.getName() </li>
+    #end
+    </ul>
+  </td>
+
+  </tr>
 </table>
-<br>
-<h4>List of completed tasks: </h4>
-<table style='width:50%'>
-#foreach($task in $completedTasks)
-<tr>
-  <td><a href='/isNotCompleted_tasks/$task.getId()'><span class='glyphicon glyphicon-check'></span></a></td>
-  <td><a href='/tasks/$task.getId()'><span class='glyphicon glyphicon-pencil'></span></a></td>
-  <td><a href='/tasks/$task.getId()'>$task.getDescription()</a></td>
-  <td>#if($task.getDueDate())
-      <span class='glyphicon glyphicon-calendar'></span>  $task.getDueDate()
-      #else
-      #end
-    </td>
-  <td><a href='/delete_tasks/$task.getId()'><span class='glyphicon glyphicon-remove'></span></a></td>
-</tr>
 #end
-</table>

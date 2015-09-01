@@ -1,11 +1,23 @@
 <h3>$student.getName()'s page</h3>
+
+<h4>Current major : $student.getMajor()</h4>
+
 <form action='/update_student' method='post'>
   <input id='student_id' name='student_id' type='hidden' value='$student.getId()'>
   <label for='name'>Name : </label>
   <input id='name' name='name' type='text' value='$student.getName()'>
   <label for='date'>Enrollment Date : </label>
   <input id='date' name='date' type='date' value='$student.getDate()'>
-  <button type='submit'>Edit</button>
+
+  <input id='student_id' name='student_id' type='hidden' value='$student.getId()'>
+  <label for='major_id'>Add a major : </label>
+  <select id='major_id' name='major_id' type='text'>
+    #foreach($major in $majors)
+      <option value='$major.getId()'> $major.getMajor() </option>
+    #end
+  </select>
+
+  <button type='submit'>Edit/Add</button>
 </form>
 <br>
 <form action='/add_courses' method='post'>

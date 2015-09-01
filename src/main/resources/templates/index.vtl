@@ -10,19 +10,33 @@
 </form>
 <br>
 #if($students)
-  <table>
+<table class="table table-condensed">
   <tr>
     <td>Student Name</td>
     <td>Enrollment Date</td>
+    <td>Major</td>
   </tr>
   #foreach($student in $students)
-  <tr>
-      <td><a href="/student/$student.getId()">$student.getName()</a></td>
-      <td>$student.getDate()</td>
-  </tr>
-  #end
+    #if($student.getMajor() == "art")
+      <tr class = "active">
+    #elseif($student.getMajor() == "history")
+      <tr class = "warning">
+    #elseif($student.getMajor() == "biology")
+      <tr class = "danger">
+    #elseif($student.getMajor() == "computer science")
+      <tr class = "info">
+    #else
+    <tr class = "success">
+    #end
+
+          <td><a href="/student/$student.getId()">$student.getName()</a></td>
+          <td>$student.getDate()</td>
+          <td>$student.getMajor()</td>
+      </tr>
+      #end
   </table>
 #end
+
 </div>
 <br>
 <div id="well">

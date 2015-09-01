@@ -4,12 +4,16 @@ import java.util.*;
 import org.sql2o.*;
 
 public class Student {
-  private int id;
+  private int id, major_id;
   private String name, date;
   private boolean isCompleted;
 
   public int getId() {
     return id;
+  }
+
+  public int getMajorId() {
+    return major_id;
   }
 
   public String getName() {
@@ -20,9 +24,24 @@ public class Student {
     return date;
   }
 
+
+  public String getMajor() {
+    try(Connection con = DB.sql2o.open()){
+      String sql = "SELECT major FROM departments WHERE id = :major_id";
+      String theMajor = con.createQuery(sql)
+        .addParameter("major_id", this.getMajorId())
+        .executeAndFetchFirst(String.class);
+      if(theMajor == null){
+        theMajor = "unassigned";
+      }
+      return theMajor;
+    }
+  }
+
   public Student(String name, String date) {
     this.name = name;
     this.date = date;
+    this.major_id = 0;
   }
 
   @Override
@@ -47,7 +66,7 @@ public class Student {
 
   public void save() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO students (name, date) VALUES (:name, :date)";
+      String sql = "INSERT INTO students (name, date, major_id) VALUES (:name, :date)";
       this.id = (int) con.createQuery(sql, true)
         .addParameter("name", name)
         .addParameter("date", date)
@@ -55,6 +74,7 @@ public class Student {
         .getKey();
     }
   }
+
 
   public static Student find(int id) {
     try(Connection con = DB.sql2o.open()) {
@@ -66,12 +86,13 @@ public class Student {
     }
   }
 
-  public void update(String name, String date) {
+  public void update(String name, String date, int major_id) {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "UPDATE students SET name = :name, date = :date WHERE id = :id";
+      String sql = "UPDATE students SET name = :name, date = :date, major_id = :major_id WHERE id = :id";
       con.createQuery(sql)
         .addParameter("name", name)
         .addParameter("date", date)
+        .addParameter("major_id", major_id)
         .addParameter("id", id)
         .executeUpdate();
     }

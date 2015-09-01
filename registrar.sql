@@ -10,14 +10,14 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 
 --
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner:
 --
 
 CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner:
 --
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
@@ -30,7 +30,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: courses; Type: TABLE; Schema: public; Owner: Guest; Tablespace: 
+-- Name: courses; Type: TABLE; Schema: public; Owner: Guest; Tablespace:
 --
 
 CREATE TABLE courses (
@@ -64,7 +64,7 @@ ALTER SEQUENCE courses_id_seq OWNED BY courses.id;
 
 
 --
--- Name: courses_students; Type: TABLE; Schema: public; Owner: Guest; Tablespace: 
+-- Name: courses_students; Type: TABLE; Schema: public; Owner: Guest; Tablespace:
 --
 
 CREATE TABLE courses_students (
@@ -99,7 +99,7 @@ ALTER SEQUENCE courses_students_id_seq OWNED BY courses_students.id;
 
 
 --
--- Name: students; Type: TABLE; Schema: public; Owner: Guest; Tablespace: 
+-- Name: students; Type: TABLE; Schema: public; Owner: Guest; Tablespace:
 --
 
 CREATE TABLE students (
@@ -216,7 +216,7 @@ SELECT pg_catalog.setval('students_id_seq', 5, true);
 
 
 --
--- Name: courses_pkey; Type: CONSTRAINT; Schema: public; Owner: Guest; Tablespace: 
+-- Name: courses_pkey; Type: CONSTRAINT; Schema: public; Owner: Guest; Tablespace:
 --
 
 ALTER TABLE ONLY courses
@@ -224,7 +224,7 @@ ALTER TABLE ONLY courses
 
 
 --
--- Name: courses_students_pkey; Type: CONSTRAINT; Schema: public; Owner: Guest; Tablespace: 
+-- Name: courses_students_pkey; Type: CONSTRAINT; Schema: public; Owner: Guest; Tablespace:
 --
 
 ALTER TABLE ONLY courses_students
@@ -232,7 +232,7 @@ ALTER TABLE ONLY courses_students
 
 
 --
--- Name: students_pkey; Type: CONSTRAINT; Schema: public; Owner: Guest; Tablespace: 
+-- Name: students_pkey; Type: CONSTRAINT; Schema: public; Owner: Guest; Tablespace:
 --
 
 ALTER TABLE ONLY students
@@ -252,4 +252,3 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 --
 -- PostgreSQL database dump complete
 --
-

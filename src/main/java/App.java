@@ -81,6 +81,7 @@ public class App {
       model.put("student", myStudent);
       model.put("myCourses", myCourses);
       model.put("courses", Course.all());
+      model.put("majors", Department.all());
       model.put("template", "templates/student.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
@@ -92,7 +93,9 @@ public class App {
       Student myStudent = Student.find(student_id);
       String name = request.queryParams("name");
       String date = request.queryParams("date");
-      myStudent.update(name, date);
+      int majorId = Integer.parseInt(request.queryParams("major_id"));
+
+      myStudent.update(name, date, majorId);
       response.redirect("/student/" + student_id);
       return null;
     });
@@ -107,7 +110,13 @@ public class App {
       return null;
     });
 
-
+    get("/studentList", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("template", "templates/studentList.vtl");
+      model.put("students", Student.all());
+      model.put("all_majors", Department.all());
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
 
     // get("/delete_courses/:course_id", (request, response) -> {
     //   int course_id = Integer.parseInt(request.params("course_id"));
