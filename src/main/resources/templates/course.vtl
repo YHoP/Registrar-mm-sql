@@ -1,0 +1,56 @@
+<h3>Category : $course.getName()</h3>
+
+<form action='/update_course/$course.getId()' method='post'>
+  <label for='name'>Name : </label>
+  <input id='name' name='name' type='text' value='$course.getName()'>
+  <button type='submit'>Edit</button>
+</form>
+<br>
+<form action='/add_tasks' method='post'>
+    <input id='course_id' name='course_id' type='hidden' value='$course.getId()'>
+    <label for='task_id'>Add a task : </label>
+    <select id='task_id' name='task_id' type='text'>
+      #foreach($task in $allTasks)
+        <option value='$task.getId()'> $task.getDescription() </option>
+      #end
+    </select>
+    <button type='submit'>Add</button>
+</form>
+<br>
+#if($course.getTasks())
+<h4>List of tasks: </h4>
+<table style='width:50%'>
+#foreach($task in $incompletedCategoryTasks)
+<tr>
+  <td><a href='/$course.getId()/isCompleted_tasks/$task.getId()'><span class='glyphicon glyphicon-unchecked'></span></a></td>
+  <td><a href='/update_tasks/$task.getId()'><span class='glyphicon glyphicon-pencil'></span></a></td>
+  <td><a href='/tasks/$task.getId()'>$task.getDescription()</a></td>
+  <td><span class='glyphicon glyphicon-calendar'></span>
+      #if($task.getDueDate())
+        $task.getDueDate()
+      #else
+      #end
+    </td>
+  <td><a href='/$course.getId()/delete_tasks/$task.getId()'><span class='glyphicon glyphicon-remove'></span></a></td>
+</tr>
+#end
+</table>
+<br>
+<h4>List of completed tasks: </h4>
+<table style='width:50%'>
+#foreach($task in $completedCategoryTasks)
+<tr>
+  <td><a href='/$course.getId()/isNotCompleted_tasks/$task.getId()'><span class='glyphicon glyphicon-check'></span></a></td>
+  <td><a href='/update_tasks/$task.getId()'><span class='glyphicon glyphicon-pencil'></span></a></td>
+  <td><a href='/tasks/$task.getId()'>$task.getDescription()</a></td>
+  <td><span class='glyphicon glyphicon-calendar'></span>
+      #if($task.getDueDate())
+        $task.getDueDate()
+      #else
+      #end
+    </td>
+  <td><a href='/$course.getId()/delete_tasks/$task.getId()'><span class='glyphicon glyphicon-remove'></span></a></td>
+</tr>
+#end
+</table>
+#end

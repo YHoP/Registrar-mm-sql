@@ -1,0 +1,2 @@
+<a href='/courseList'><button type="button" class="btn btn-info">Course List</button></a>
+<a href='/studentList'><button type="button" class="btn btn-warning">Student List</button></a>

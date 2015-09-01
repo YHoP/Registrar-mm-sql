@@ -1,0 +1,32 @@
+.btn {
+  color: white;
+  text-decoration: none;
+}
+
+table {
+  padding:20px;
+  width: 60%;
+	background-color: #ffffcc;
+  box-shadow: 0 0 10px #777777;
+  -moz-box-shadow: 0 0 10px #777777;
+  -webkit-box-shadow: 0 0 10px #777777;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+}
+
+td {
+  padding: 10px;
+}
+
+.center{
+    text-align: center;
+}
+
+
+footer {
+  margin-left: 20px;
+  margin-bottom: 20px;
+  padding:20px;
+
+}

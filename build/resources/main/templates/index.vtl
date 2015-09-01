@@ -1,0 +1,14 @@
+<h3>Input stuednt info</h3>
+
+<form action='/add_student' method='post'>
+  <label for='name'>Student Name</label>
+  <input id='name' name='name' type='text'>
+  <label for='date'>Enrollment Date</label>
+  <input type='date' name='date'/>
+  <button type='submit'> Add </button>
+</form>
+
+
+#foreach($student in $students)
+  Student Name: $student.getName()   Enrollment Date: $student.getDate() <br>
+#end

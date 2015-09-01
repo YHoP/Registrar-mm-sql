@@ -1,0 +1,18 @@
+<h2>Categories</h2>
+
+<form action='/courses' method='post'>
+  <label for='name'>Add a category  </label>
+  <input id='name' name='name' type='text'>
+  <button type='submit' class='btn btn-success'>Add</button>
+</form>
+
+<br>
+<table style='width:50%'>
+  #foreach ($category in $courses)
+  <tr>
+    <td><a href='/courses/$category.getId()'><span class="glyphicon glyphicon-pencil"></span></a></td>
+    <td><a href='/courses/$category.getId()'>$category.getName()</a></td>
+    <td><a href='/delete_courses/$category.getId()'><span class="glyphicon glyphicon-remove"></span></a></td>
+  </tr>
+  #end
+</table>
